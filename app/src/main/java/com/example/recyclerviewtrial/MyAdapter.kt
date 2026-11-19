@@ -9,6 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MyAdapter(val items: ArrayList<Item>): RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
+    //Mio clickListener
+    var listener: ItemClickListener? = null
+
+    fun setClickListener(myListener: ItemClickListener) {
+        listener = myListener
+    }
+
     /**
      * Responsabile per creare nuove view per gli Items della RecyclerView
      */
@@ -18,7 +25,7 @@ class MyAdapter(val items: ArrayList<Item>): RecyclerView.Adapter<MyAdapter.MyVi
     ): MyViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_layout, parent, false)
-        return MyViewHolder(view)
+        return MyViewHolder(view, listener)
     }
 
     /**
@@ -41,12 +48,21 @@ class MyAdapter(val items: ArrayList<Item>): RecyclerView.Adapter<MyAdapter.MyVi
         return items.size
     }
 
-    class MyViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+    class MyViewHolder(ItemView: View, clickListener: ItemClickListener?) : RecyclerView.ViewHolder(ItemView) {
         /**
          * itemView = rappresenta la singola riga della RecyclerView
          */
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val title: TextView = itemView.findViewById(R.id.title_txt)
         val description: TextView = itemView.findViewById(R.id.description_text)
+
+        init {
+            itemView.setOnClickListener {
+               val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    clickListener?.onClick(itemView, position)
+                }
+            }
+        }
     }
 }
