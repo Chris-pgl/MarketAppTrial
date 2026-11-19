@@ -22,7 +22,7 @@ class MyAdapter(val items: ArrayList<Item>): RecyclerView.Adapter<MyAdapter.MyVi
     }
 
     /**
-     * Responsabile per conoscere quanti elementi contiene la lista
+     * Responsabile per prendere i dati di un elemnto della lista e inserirli nel relativo view
      */
     override fun onBindViewHolder(
         holder: MyViewHolder,
